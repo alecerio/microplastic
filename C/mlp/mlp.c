@@ -15,12 +15,6 @@ static float32_t tensor_fc2bias[2] = {0.00095919904, -0.11503592, };
 void run_inference(float32_t* tensor_onnxGemm_0, float32_t* tensor_8) {
 omp_set_num_threads(4);
 
-#ifdef COMPILER_BENCHMARK
-double neuralcasting_time_benchmark = 0.0f;
-double neuralcasting_end_benchmark = 0.0f;
-double neuralcasting_start_benchmark = 0.0f;
-#endif
-
 
 
 
@@ -33,10 +27,6 @@ float32_t tensor_fc1Gemm_output_0[32];
 #undef CONNECTED_OUTPUT
 #endif
 
-#ifdef COMPILER_BENCHMARK
-neuralcasting_start_benchmark = omp_get_wtime();
-#endif
-
 #pragma omp parallel for shared(tensor_fc1weight, tensor_onnxGemm_0, tensor_fc1Gemm_output_0, tensor_fc1bias) collapse(1)
 for(int32_t i=0; i<32; i++) {
     float32_t temp = 0.0f;
@@ -46,10 +36,6 @@ for(int32_t i=0; i<32; i++) {
     }
     tensor_fc1Gemm_output_0[i] = temp + tensor_fc1bias[i];
 }
-
-#ifdef COMPILER_BENCHMARK
-BENCHMARK("tensor_fc1Gemm", 2656)
-#endif
 
 #ifdef COMPILER_DEBUG
 printf("----------------- DEBUG OUTPUT fc1Gemm -----------------\n");
@@ -69,10 +55,6 @@ float32_t tensor_Relu_output_0[32];
 #undef CONNECTED_OUTPUT
 #endif
 
-#ifdef COMPILER_BENCHMARK
-neuralcasting_start_benchmark = omp_get_wtime();
-#endif
-
 for(int i0=0; i0<1; i0++) {
 #pragma omp parallel for shared(tensor_fc1Gemm_output_0, tensor_Relu_output_0) private(i0)
 for(int i1=0; i1<32; i1++) {
@@ -81,10 +63,6 @@ tensor_Relu_output_0[i1*1] = tensor_fc1Gemm_output_0[i1*1] > 0.0f ? tensor_fc1Ge
 }
 }
 
-
-#ifdef COMPILER_BENCHMARK
-BENCHMARK("tensor_Relu", 0)
-#endif
 
 #ifdef COMPILER_DEBUG
 printf("----------------- DEBUG OUTPUT Relu -----------------\n");
@@ -105,9 +83,6 @@ float32_t tensor_fc2Gemm_output_0[2];
 #undef CONNECTED_OUTPUT
 #endif
 
-#ifdef COMPILER_BENCHMARK
-neuralcasting_start_benchmark = omp_get_wtime();
-#endif
 
 #pragma omp parallel for shared(tensor_fc2weight, tensor_Relu_output_0, tensor_fc2Gemm_output_0, tensor_fc2bias) collapse(1)
 for(int32_t i=0; i<2; i++) {
@@ -119,9 +94,6 @@ for(int32_t i=0; i<2; i++) {
     tensor_fc2Gemm_output_0[i] = temp + tensor_fc2bias[i];
 }
 
-#ifdef COMPILER_BENCHMARK
-BENCHMARK("tensor_fc2Gemm", 130)
-#endif
 
 #ifdef COMPILER_DEBUG
 printf("----------------- DEBUG OUTPUT fc2Gemm -----------------\n");
