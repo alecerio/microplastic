@@ -27,3 +27,7 @@ For PRs add one or more labels to classify the content:
 
 Assign the PR to yuorself, if possible.
 It is possible to merge into the main branch without a review. Add someone as a review if you are unsure about the code.
+
+## Description
+
+Add a short description of the PR content.
