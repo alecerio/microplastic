@@ -12,19 +12,14 @@ from onnxruntime.quantization import QuantType
 class SimpleNN(nn.Module):
     def __init__(self):
         super(SimpleNN, self).__init__()
-        self.fc1 = nn.Linear(10, 50)  # Input layer to hidden layer
-        self.relu = nn.ReLU()         # Activation function
-        self.fc2 = nn.Linear(50, 2)   # Hidden layer to output layer
+        self.fc1 = nn.Linear(4, 3)  # Input layer to hidden layer
 
     def forward(self, x):
         x = self.fc1(x)
-        x = self.relu(x)
-        x = self.fc2(x)
         return x
 
-
 # Create a dummy input tensor
-dummy_input = torch.randn(1, 10, requires_grad=True)
+dummy_input = torch.randn(1, 4, requires_grad=True)
 model = SimpleNN()
 
 # export fp32 model to onnx
@@ -57,7 +52,7 @@ class QuantizationDataReader(quantization.CalibrationDataReader):
         self.current_index = 0
     def get_next(self):
         if self.current_index < self.num_calibration_samples:
-            input_data = np.random.rand(1, 10).astype(np.float32)  # Adjust shape if needed
+            input_data = np.random.rand(1, 4).astype(np.float32)  # Adjust shape if needed
             self.current_index += 1
             return {input_name: input_data}  # Use the correct input name from the model
         else:
