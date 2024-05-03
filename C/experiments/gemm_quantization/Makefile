@@ -6,14 +6,20 @@ INC = include
 BUILD = build
 OUT = out
 
-TARGET = quant
+TARGET = quant qgemm
 
 SRC_QUANT = $(SRC)/main.c $(SRC)/quant_helper.c
 OBJ_QUANT = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QUANT))
 
+SRC_QGEMM = $(SRC)/main_qgemm.c $(SRC)/quant_helper.c $(SRC)/qgemm.c
+OBJ_QGEMM = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QGEMM))
+
 all: $(TARGET)
 
 quant: $(OBJ_QUANT)
+	$(CC) -o $(OUT)/$@ $^
+
+qgemm: $(OBJ_QGEMM)
 	$(CC) -o $(OUT)/$@ $^ 
 
 $(BUILD)/%.o: $(SRC)/%.c
