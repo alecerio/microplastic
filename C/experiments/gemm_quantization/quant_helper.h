@@ -1,7 +1,9 @@
 #ifndef __QUANT_HELPER__
 #define __QUANT_HELPER__
 
+#include <stdio.h>
 #include <stdint.h>
+#include <limits.h>
 
 #define PRINT_MAT(X, SX, SY, T, HEADER) \
 printf(" ########################### \n"); \

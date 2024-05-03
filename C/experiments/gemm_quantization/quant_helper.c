@@ -8,7 +8,14 @@ void quantize(float* W, int8_t* Wq, int size, float S, int8_t Z) {
 
 void dequantize(int8_t* Wq, float* W, int size, float S, int8_t Z) {
     for(int i=0; i<size; i++) {
-        W[i] = (Wq[i]-Z)*S;
+        int subzero = (int)Wq[i]-Z;
+        if (subzero < INT8_MIN) {
+            subzero += UINT8_MAX+1;
+            subzero %= UINT8_MAX+1;
+        }
+        else if(subzero > INT8_MAX)
+            subzero %= UINT8_MAX+1;
+        W[i] = subzero*S;
     }
 }
 
