@@ -17,7 +17,7 @@ void dequantize(int8_t* Wq, float* W, int size, float S, int8_t Z) {
             subzero %= UINT8_MAX+1;
         W[i] = subzero*S;
     }
-}
+} 
 
 void quant_error(float* W_rec, float* W, float* We, int size) {
     for(int i=0; i<size; i++) {

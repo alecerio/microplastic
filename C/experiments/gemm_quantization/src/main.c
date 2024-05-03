@@ -19,7 +19,7 @@ int main() {
     PRINT_MAT(W, SIZE_X, SIZE_Y, %f, "FLOAT32 MATRIX");
 
     float r_max, r_min; RANGE_R(W, SIZE_LIN, r_max, r_min)
-    int8_t q_min, q_max; NBITS_RANGE(2, q_min, q_max)
+    int8_t q_min, q_max; NBITS_RANGE(8, q_min, q_max)
     float S; SCALF(r_max, r_min, q_max, q_min, S)
     int8_t Z; ZERO(q_min, r_min, S, Z)
 
@@ -34,5 +34,5 @@ int main() {
     quant_error(W_rec, W, W_err, SIZE_LIN);
     PRINT_MAT(W_err, SIZE_X, SIZE_Y, %f, "QUANTIZATION ERROR")
 
-    return 0;
+    return 0; 
 }
