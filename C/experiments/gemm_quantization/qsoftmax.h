@@ -1,6 +1,9 @@
 #ifndef __QSOFTMAX__
 #define __QSOFTMAX__
 
+#include <stdint.h>
+#include "quant_helper.h"
+
 #define EXP_LUT_SIZE (256)
 
 static float EXP_LUT_X[EXP_LUT_SIZE] = {
@@ -117,5 +120,6 @@ static float EXP_LUT_Y[EXP_LUT_SIZE] = {
 };
 
 float access_softmax_lut(float x);
+void qsoftmax(int8_t* qx, float* sm, float* exps, float* dq, int size);
 
 #endif // __QSOFTMAX__
