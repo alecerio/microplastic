@@ -5,7 +5,7 @@ def softmax(x):
     return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
 
 input_data = np.array(
-    [0.0, 1.0, 2.0, 3.0, 4.0]
+    [0.0, -0.01, 0.02, -0.03]
 ).astype(np.float32)
 
 y = softmax(input_data)
