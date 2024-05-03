@@ -39,7 +39,7 @@ def access_lut(x_axis, y_axis, x):
 
 
 input_data = np.array(
-    [0.0, 1.0, 2.0, 3.0, 4.0]
+    [0.0, -0.01, 0.02, -0.03]
 ).astype(np.float32)
 
 qx = quantize_input(input_data)
