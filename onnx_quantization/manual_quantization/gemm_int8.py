@@ -40,6 +40,7 @@ def compute_qgemm(qx):
     a = qx - Zx
     a = np.transpose(a)
     b = c * (np.dot(qw, a) + qb)
+    b = b.astype(np.int8)
     return b + Zy
 
 def dequantize_output(qy):
@@ -51,7 +52,7 @@ def dequantize_output(qy):
 
 # input
 input = np.array(
-    [0.0, 1.0, 2.0, 3.0]
+    [0.0, -0.01, 0.02, -0.03]
 ).astype(np.float32)
 qx = quantize_input(input)
 
