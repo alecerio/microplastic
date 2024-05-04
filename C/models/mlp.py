@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import numpy as np
 
 class MLP(nn.Module):
     def __init__(self):
@@ -13,5 +14,7 @@ class MLP(nn.Module):
         return x
 
 model = MLP()
-mlp_input = torch.randn(1, 41, dtype=torch.float32)
-torch.onnx.export(model, mlp_input, "C/models/MLP.onnx", export_params=True, opset_version=14)
+export_onnx_model = False
+if export_onnx_model:
+    mlp_input = torch.randn(1, 41, dtype=torch.float32)
+    torch.onnx.export(model, mlp_input, "C/models/MLP.onnx", export_params=True, opset_version=14)

@@ -5,7 +5,10 @@ import os
 import onnx
 
 # define input
-input_data = torch.ones(1, 41) 
+#input_data = torch.ones(1, 41) 
+#print(input_data.shape)
+input_data = torch.linspace(-20, 20, 41).unsqueeze(0) * 0.01
+print(input_data.shape)
 
 # create session
 script_path = os.path.abspath(__file__)
