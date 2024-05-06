@@ -78,7 +78,7 @@ static int8_t tensor_qgemm1_output[QGEMM1_SIZEOUT];
 
 static int8_t tensor_qgemm2_wq[QGEMM2_SIZELIN] = {
     127, 10, -56,
-    -95, -100, 9
+    -95, -100, 96
 };
 
 static int32_t tensor_qgemm2_qb[QGEMM2_SIZEOUT] = {
@@ -87,9 +87,7 @@ static int32_t tensor_qgemm2_qb[QGEMM2_SIZEOUT] = {
 
 static int8_t tensor_qgemm2_output[QGEMM2_SIZEOUT];
 
-// GENERATE CODE FOR QSOFTMAX1
-
-#include <stdint.h>
+// GENERATE CODE FOR DEQUANTIZE1
 
 #ifndef __QUANT_HELPER__
 #define __QUANT_HELPER__
@@ -122,6 +120,14 @@ S = (r_max - r_min) / (q_max - q_min);
 Z = QUANT_ROUND(q_min - (r_min/S));
 
 #endif // __QUANT_HELPER__
+
+#define DEQUANTIZE1_SIZEOUT (2)
+#define DEQUANTIZE1_S (0.0024469024501740932)
+#define DEQUANTIZE1_Z (255)
+
+static float tensor_dequantize1_output[DEQUANTIZE1_SIZEOUT];
+
+// GENERATE CODE FOR SOFTMAX1
 
 #ifndef __EXP_HELPER___
 #define __EXP_HELPER___
@@ -262,51 +268,7 @@ static float EXP_LUT_Y[EXP_LUT_SIZE] = {
 
 #endif // __EXP_HELPER___
 
-#define QSOFTMAX1_S (0.003917609341442585)
-#define QSOFTMAX1_Z (0)
-#define QSOFTMAX1_SIZEOUT (2)
-
-static int8_t tensor_qsoftmax1_output[QSOFTMAX1_SIZEOUT];
-
-// GENERATE CODE FOR DEQUANTIZE1
-
-#ifndef __QUANT_HELPER__
-#define __QUANT_HELPER__
-
-#include <stdio.h>
-#include <stdint.h>
-#include <limits.h>
-
-#define QUANT_REL_OP(X, SL, Y, OP) \
-Y = X[0]; \
-for(int i=1; i<SL; i++) { \
-    if(X[i] OP Y) \
-        Y = X[i]; \
-}
-
-#define QUANT_RANGE_R(W, SIZE_LIN, r_max, r_min) \
-QUANT_REL_OP(W, SIZE_LIN, r_max, >) \
-QUANT_REL_OP(W, SIZE_LIN, r_min, <)
-
-#define QUANT_ROUND(X) \
-(X >= 0) ? (int8_t)(X + 0.5) : (int8_t)(X - 0.5);
-
-#define QUANT_ABS(X) \
-(X > 0) ? X : (-X)
-
-#define QUANT_SCALF(r_max, r_min, q_max, q_min, S) \
-S = (r_max - r_min) / (q_max - q_min);
-
-#define QUANT_ZERO(q_min, r_min, S, Z) \
-Z = QUANT_ROUND(q_min - (r_min/S));
-
-#endif // __QUANT_HELPER__
-
-#define DEQUANTIZE1_SIZEOUT (2)
-#define DEQUANTIZE1_S (0.006249960046261549)
-#define DEQUANTIZE1_Z (117)
-
-static float tensor_dequantize1_output[DEQUANTIZE1_SIZEOUT];
+#define SOFTMAX1_SIZEOUT (2)
 
 // run inference
 

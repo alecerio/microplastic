@@ -33,8 +33,6 @@ int main() {
     int8_t q_input[INPUT_SIZE]; 
     quantize(input, q_input, INPUT_SIZE, 0.003917609341442585, 0);
 
-    PRINT_MAT(q_input, 1, INPUT_SIZE, %d, "QUANTIZED INPUT")
-
     int8_t qgemm1_res[OUTPUT_SIZE];
     qgemm(0.003903175937011838, 0, qw1, 0.003805271815508604, qb1, 0.00199624034576118, 0, 3, 4, qgemm1_res, q_input);
     
@@ -44,16 +42,16 @@ int main() {
     float res[2];
     dequantize(qgemm2_res, res, 2, 0.0024469024501740932, 255);
 
-    PRINT_MAT(res, 1, 2, %f, "DEQUANTIZED OUTPUT")
-
     // softmax
     float output[2];
     float exps[2];
     float sum_exps = 0.0f;
     for(int i=0; i<2; i++) {
-        exps[i] = expf(res[i]-exps[1]);
+        exps[i] = expf(res[i]-res[1]);
+        printf("%f ", exps[i]);
         sum_exps += exps[i];
     }
+    printf("\n");
     for(int i=0; i<2; i++) {
         output[i] = exps[i] / sum_exps;
     }

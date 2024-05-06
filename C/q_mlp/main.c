@@ -7,4 +7,9 @@ int main() {
 
     float output[2];
     run_inference(input, output);
+
+    for(int i=0; i<2; i++) {
+        printf("%f, ", output[i]);
+    }
+    printf("\n");
 }
