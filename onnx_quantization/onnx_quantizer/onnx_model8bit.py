@@ -12,15 +12,20 @@ from onnxruntime.quantization import QuantType
 class SimpleNN(nn.Module):
     def __init__(self):
         super(SimpleNN, self).__init__()
-        self.fc1 = nn.Linear(4, 3)  # Input layer to hidden layer
-
+        self.fc1 = nn.Linear(4, 3)
+        self.fc2 = nn.Linear(3, 2)
+    
     def forward(self, x):
-        x = self.fc1(x)
+        x = torch.relu(self.fc1(x))
+        x = torch.softmax(self.fc2(x), dim=1)
         return x
 
 # Create a dummy input tensor
 dummy_input = torch.randn(1, 4, requires_grad=True)
 model = SimpleNN()
+
+#torch.save(model.state_dict(), 'model.pth')
+model.load_state_dict(torch.load('model.pth'))
 
 # export fp32 model to onnx
 model_fp32_path = "simple_nn.onnx"
