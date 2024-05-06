@@ -5,6 +5,6 @@ int main() {
         0.0f, -0.01f, 0.02f, -0.03f
     };
 
-    float output[3];
+    float output[2];
     run_inference(input, output);
 }

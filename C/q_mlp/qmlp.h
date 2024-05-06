@@ -33,7 +33,7 @@ Z = QUANT_ROUND(q_min - (r_min/S));
 #endif // __QUANT_HELPER__
 
 #define QUANTIZE1_SIZE (4)
-#define QUANTIZE1_S (0.003917609341442585)
+#define QUANTIZE1_S (0.003903175937011838)
 #define QUANTIZE1_Z (0)
 
 static int8_t tensor_quantize1_output[QUANTIZE1_SIZE];
@@ -42,9 +42,9 @@ static int8_t tensor_quantize1_output[QUANTIZE1_SIZE];
 
 #include <stdint.h>
 
-#define QGEMM1_SW (0.0033770152367651463)
-#define QGEMM1_SY (0.006249960046261549)
-#define QGEMM1_SX (0.003917609341442585)
+#define QGEMM1_SW (0.003805271815508604)
+#define QGEMM1_SY (0.00199624034576118)
+#define QGEMM1_SX (0.003903175937011838)
 #define QGEMM1_ZX (0)
 #define QGEMM1_ZY (0)
 #define QGEMM1_SIZEIN (4)
@@ -52,13 +52,13 @@ static int8_t tensor_quantize1_output[QUANTIZE1_SIZE];
 #define QGEMM1_SIZELIN (QGEMM1_SIZEIN * QGEMM1_SIZEOUT)
 
 static int8_t tensor_qgemm1_wq[QGEMM1_SIZELIN] = {
-    122, -28, 66, -87,
-    0, 76, -50, 119,
-    0, -127, 94, -85
+        -60, 59, -102, 81,
+        127, -91, 103, 52,
+        31, -18, -51, -50
 };
 
 static int32_t tensor_qgemm1_qb[QGEMM1_SIZEOUT] = {
-    -35547, 23187, 10704
+    -6286, -27727, -18030
 };
 
 static int8_t tensor_qgemm1_output[QGEMM1_SIZEOUT];
@@ -67,22 +67,22 @@ static int8_t tensor_qgemm1_output[QGEMM1_SIZEOUT];
 
 #include <stdint.h>
 
-#define QGEMM2_SW (0.0033770152367651463)
-#define QGEMM2_SY (0.006249960046261549)
-#define QGEMM2_SX (0.003917609341442585)
+#define QGEMM2_SW (0.003978593274950981)
+#define QGEMM2_SY (0.0024469024501740932)
+#define QGEMM2_SX (0.00199624034576118)
 #define QGEMM2_ZX (0)
-#define QGEMM2_ZY (0)
+#define QGEMM2_ZY (255)
 #define QGEMM2_SIZEIN (3)
 #define QGEMM2_SIZEOUT (2)
 #define QGEMM2_SIZELIN (QGEMM2_SIZEIN * QGEMM2_SIZEOUT)
 
 static int8_t tensor_qgemm2_wq[QGEMM2_SIZELIN] = {
-    122, -28, 66, 
-    -87, 0, 76
+    127, 10, -56,
+    -95, -100, 9
 };
 
 static int32_t tensor_qgemm2_qb[QGEMM2_SIZEOUT] = {
-    -35547, 23187
+    -56203, -53056
 };
 
 static int8_t tensor_qgemm2_output[QGEMM2_SIZEOUT];
@@ -305,6 +305,8 @@ Z = QUANT_ROUND(q_min - (r_min/S));
 #define DEQUANTIZE1_SIZEOUT (2)
 #define DEQUANTIZE1_S (0.006249960046261549)
 #define DEQUANTIZE1_Z (117)
+
+static float tensor_dequantize1_output[DEQUANTIZE1_SIZEOUT];
 
 // run inference
 
