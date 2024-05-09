@@ -13,11 +13,20 @@ from onnxruntime.quantization import QuantType
 ##################################################################
 
 def linear_weight_init(tensor, start_value=0.1, increment=0.05):
-    num_rows, num_cols = tensor.size()
+    num_rows, num_cols = tensor.size()    
     new_tensor = torch.empty_like(tensor)
     for i in range(num_rows):
         row_start = start_value + i * increment
         new_tensor[i] = torch.arange(row_start, row_start + (num_cols-1) * increment, num_cols)
+    return new_tensor
+
+def linear_bias_init(tensor, start_value=0.1, increment=0.05):
+    tensor_size = tensor.size()   
+    temp_tensor = []
+    for i in range(0, tensor_size[0]):
+        row_start = start_value + i * increment
+        temp_tensor.append(row_start)
+    new_tensor = torch.tensor(temp_tensor)
     return new_tensor
 
 class SimpleNN(nn.Module):
@@ -42,6 +51,13 @@ class SimpleNN(nn.Module):
         self.W_hz.weight.data = linear_weight_init(self.W_hz.weight.data, start_value=0.4, increment=0.04)
         self.W_in.weight.data = linear_weight_init(self.W_in.weight.data, start_value=0.5, increment=0.05)
         self.W_hn.weight.data = linear_weight_init(self.W_hn.weight.data, start_value=0.6, increment=0.06)
+
+        self.W_ir.bias.data = linear_bias_init(self.W_ir.bias.data, start_value=0.1, increment=0.01)
+        self.W_hr.bias.data = linear_bias_init(self.W_hr.bias.data, start_value=0.2, increment=0.02)
+        self.W_iz.bias.data = linear_bias_init(self.W_iz.bias.data, start_value=0.3, increment=0.03)
+        self.W_hz.bias.data = linear_bias_init(self.W_hz.bias.data, start_value=0.4, increment=0.04)
+        self.W_in.bias.data = linear_bias_init(self.W_in.bias.data, start_value=0.5, increment=0.05)
+        self.W_hn.bias.data = linear_bias_init(self.W_hn.bias.data, start_value=0.6, increment=0.06)
 
     def forward(self, x, hidden):
         r_t = torch.sigmoid(self.W_ir(x) + self.W_hr(hidden))
