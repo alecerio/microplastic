@@ -8,6 +8,17 @@ from onnxruntime import quantization
 from onnxruntime.quantization import QuantFormat
 from onnxruntime.quantization import QuantType
 
+##################################################################
+#                   START MODEL DEFINITION                       #
+##################################################################
+
+def linear_weight_init(tensor, start_value=0.1, increment=0.05):
+    num_rows, num_cols = tensor.size()
+    new_tensor = torch.empty_like(tensor)
+    for i in range(num_rows):
+        row_start = start_value + i * increment
+        new_tensor[i] = torch.arange(row_start, row_start + (num_cols-1) * increment, num_cols)
+    return new_tensor
 
 class SimpleNN(nn.Module):
     def __init__(self, input_size, hidden_size):
@@ -24,14 +35,24 @@ class SimpleNN(nn.Module):
         self.W_in = nn.Linear(input_size, hidden_size)
         self.W_hn = nn.Linear(hidden_size, hidden_size)
 
+        # Apply the new initialization method
+        self.W_ir.weight.data = linear_weight_init(self.W_ir.weight.data, start_value=0.1, increment=0.01)
+        self.W_hr.weight.data = linear_weight_init(self.W_hr.weight.data, start_value=0.2, increment=0.02)
+        self.W_iz.weight.data = linear_weight_init(self.W_iz.weight.data, start_value=0.3, increment=0.03)
+        self.W_hz.weight.data = linear_weight_init(self.W_hz.weight.data, start_value=0.4, increment=0.04)
+        self.W_in.weight.data = linear_weight_init(self.W_in.weight.data, start_value=0.5, increment=0.05)
+        self.W_hn.weight.data = linear_weight_init(self.W_hn.weight.data, start_value=0.6, increment=0.06)
+
     def forward(self, x, hidden):
         r_t = torch.sigmoid(self.W_ir(x) + self.W_hr(hidden))
         z_t = torch.sigmoid(self.W_iz(x) + self.W_hz(hidden))
         n_t = torch.tanh(self.W_in(x) + r_t * self.W_hn(hidden))
-        #ones = torch.ones(z_t.shape)
         hidden = (1 - z_t) * n_t + z_t * hidden
         return hidden
 
+##################################################################
+#                     END MODEL DEFINITION                       #
+##################################################################
 
 class QuantizationDataReader(quantization.CalibrationDataReader):
     def __init__(self, input_name, sizes, num_calibration_samples=100):
@@ -103,7 +124,10 @@ def run_onnx_quantizer(model, input_names, input_sizes, output_names, op_types_t
     _gen_staticq(input_names, input_sizes, model_prep_path, 'model_i8.onnx', op_types_to_quantize)
 
 
-# RUN QUANTIZER
+##################################################################
+#                        RUN QUANTIZER                           #
+##################################################################
+
 model = SimpleNN(3, 4)
 input_sizes = [3, 4]
 input_names = ['onnx::Gemm_0', 'onnx::Gemm_1']
