@@ -1,6 +1,8 @@
 #ifndef __QUANT_HELPER__
 #define __QUANT_HELPER__
 
+#define QUANT_DEBUG
+
 #include <stdio.h>
 #include <stdint.h>
 #include <limits.h>
@@ -32,7 +34,7 @@ MIN = -powl(2, N-1); \
 MAX = powl(2, N-1)-1;
 
 #define ROUND(X) \
-(X >= 0) ? (int8_t)(X + 0.5) : (int8_t)(X - 0.5);
+(X >= 0) ? (int32_t)(X + 0.5) : (int32_t)(X - 0.5);
 
 #define ABS(X) \
 (X > 0) ? X : (-X)
@@ -42,6 +44,19 @@ S = (r_max - r_min) / (q_max - q_min);
 
 #define ZERO(q_min, r_min, S, Z) \
 Z = ROUND(q_min - (r_min/S));
+
+#define CLIP_INT8(X) \
+if(X < INT8_MIN) \
+    X = INT8_MIN; \
+else if(X >= INT8_MAX-1) \
+    X = INT8_MAX;
+
+#define CHECK_OVERFLOW(X, MIN, MAX) \
+if(X < MIN || X >= MAX) \
+    printf("OVERFLOW INT8 DETECTED: %d\n", X);
+
+#define CHECK_OVERFLOW_INT8(X) \
+CHECK_OVERFLOW(X, INT8_MIN, INT8_MAX)
 
 void quantize(float* W, int8_t* Wq, int size, float S, int8_t Z);
 void dequantize(int8_t* Wq, float* W, int size, float S, int8_t Z);
