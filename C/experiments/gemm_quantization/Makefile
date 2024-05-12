@@ -6,7 +6,7 @@ INC = include
 BUILD = build
 OUT = out
 
-TARGET = quant qgemm qsoftmax qmlp
+TARGET = quant qgemm qsoftmax qmlp qgru
 
 SRC_QUANT = $(SRC)/main.c $(SRC)/quant_helper.c
 OBJ_QUANT = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QUANT))
@@ -20,6 +20,9 @@ OBJ_QSOFTMAX = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QSOFTMAX))
 SRC_QMLP = $(SRC)/main_mlp.c $(SRC)/quant_helper.c $(SRC)/qgemm.c
 OBJ_QMLP = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QMLP))
 
+SRC_QGRU = $(SRC)/main_gru.c $(SRC)/quant_helper.c $(SRC)/qgemm.c $(SRC)/qlinadd.c $(SRC)/qlinmul.c
+OBJ_QGRU = $(patsubst $(SRC)/%.c,$(BUILD)/%.o,$(SRC_QGRU))
+
 all: $(TARGET)
 
 quant: $(OBJ_QUANT)
@@ -32,6 +35,9 @@ qsoftmax: $(OBJ_QSOFTMAX)
 	$(CC) -o $(OUT)/$@ $^ 
 
 qmlp: $(OBJ_QMLP)
+	$(CC) -o $(OUT)/$@ $^ -lm
+
+qgru: $(OBJ_QGRU)
 	$(CC) -o $(OUT)/$@ $^ -lm
 
 $(BUILD)/%.o: $(SRC)/%.c
