@@ -45,19 +45,19 @@ class SimpleNN(nn.Module):
         self.W_hn = nn.Linear(hidden_size, hidden_size)
 
         # Apply the new initialization method
-        self.W_ir.weight.data = linear_weight_init(self.W_ir.weight.data, start_value=0.1, increment=0.01)
-        self.W_hr.weight.data = linear_weight_init(self.W_hr.weight.data, start_value=0.2, increment=0.02)
-        self.W_iz.weight.data = linear_weight_init(self.W_iz.weight.data, start_value=0.3, increment=0.03)
-        self.W_hz.weight.data = linear_weight_init(self.W_hz.weight.data, start_value=0.4, increment=0.04)
-        self.W_in.weight.data = linear_weight_init(self.W_in.weight.data, start_value=0.5, increment=0.05)
-        self.W_hn.weight.data = linear_weight_init(self.W_hn.weight.data, start_value=0.6, increment=0.06)
+        self.W_ir.weight.data = linear_weight_init(self.W_ir.weight.data, start_value=-1.5, increment=0.01)
+        self.W_hr.weight.data = linear_weight_init(self.W_hr.weight.data, start_value=-1, increment=0.01)
+        self.W_iz.weight.data = linear_weight_init(self.W_iz.weight.data, start_value=0.5, increment=0.01)
+        self.W_hz.weight.data = linear_weight_init(self.W_hz.weight.data, start_value=0, increment=0.01)
+        self.W_in.weight.data = linear_weight_init(self.W_in.weight.data, start_value=0.5, increment=0.01)
+        self.W_hn.weight.data = linear_weight_init(self.W_hn.weight.data, start_value=1, increment=0.01)
 
-        self.W_ir.bias.data = linear_bias_init(self.W_ir.bias.data, start_value=0.1, increment=0.01)
-        self.W_hr.bias.data = linear_bias_init(self.W_hr.bias.data, start_value=0.2, increment=0.02)
-        self.W_iz.bias.data = linear_bias_init(self.W_iz.bias.data, start_value=0.3, increment=0.03)
-        self.W_hz.bias.data = linear_bias_init(self.W_hz.bias.data, start_value=0.4, increment=0.04)
-        self.W_in.bias.data = linear_bias_init(self.W_in.bias.data, start_value=0.5, increment=0.05)
-        self.W_hn.bias.data = linear_bias_init(self.W_hn.bias.data, start_value=0.6, increment=0.06)
+        self.W_ir.bias.data = linear_bias_init(self.W_ir.bias.data, start_value=-1.5, increment=0.01)
+        self.W_hr.bias.data = linear_bias_init(self.W_hr.bias.data, start_value=-1, increment=0.02)
+        self.W_iz.bias.data = linear_bias_init(self.W_iz.bias.data, start_value=-0.5, increment=0.03)
+        self.W_hz.bias.data = linear_bias_init(self.W_hz.bias.data, start_value=0, increment=0.04)
+        self.W_in.bias.data = linear_bias_init(self.W_in.bias.data, start_value=1, increment=0.05)
+        self.W_hn.bias.data = linear_bias_init(self.W_hn.bias.data, start_value=0.5, increment=0.06)
 
     def forward(self, x, hidden):
         r_t = torch.sigmoid(self.W_ir(x) + self.W_hr(hidden))
@@ -117,7 +117,7 @@ def _gen_staticq(input_names, input_sizes, model_prep_path, q_onnx_name, op_type
                                                    model_output=q_onnx_name,
                                                    calibration_data_reader=qdr,        
                                                    weight_type=QuantType.QInt8,
-                                                   activation_type=QuantType.QUInt8,
+                                                   activation_type=QuantType.QInt8,
                                                    quant_format=quant_format,
                                                    op_types_to_quantize=op_types_to_quantize,)
 
