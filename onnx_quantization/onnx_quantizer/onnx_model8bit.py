@@ -63,6 +63,7 @@ class SimpleNN(nn.Module):
         r_t = torch.sigmoid(self.W_ir(x) + self.W_hr(hidden))
         z_t = torch.sigmoid(self.W_iz(x) + self.W_hz(hidden))
         n_t = torch.tanh(self.W_in(x) + r_t * self.W_hn(hidden))
+
         hidden = (1 - z_t) * n_t + z_t * hidden
         return hidden
 
