@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "qmlp.h"
 
-#define NUM_ITERATIONS (50000)
+#define NUM_ITERATIONS (100000)
 
 void setup();
 void postprocessing();
