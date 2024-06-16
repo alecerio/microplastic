@@ -1,7 +1,6 @@
-#include <omp.h>
 #include <time.h>
 #include <stdlib.h>
-#include "qmlp.h"
+#include "qgru_model.h"
 
 #define NUM_ITERATIONS (100000)
 
@@ -15,6 +14,9 @@ void run();
 
 #define INPUT_SIZE (41)
 float tensor_input[INPUT_SIZE];
+
+#define HIDDEN_SIZE (8)
+float tensor_hidden[HIDDEN_SIZE];
 
 #define OUTPUT_SIZE (2)
 float tensor_output[OUTPUT_SIZE];
@@ -40,12 +42,17 @@ void setup() {
         tensor_input[i] = val;
     }
 
+    for(int i=0; i<HIDDEN_SIZE; i++) {
+        float val = rand()/ RAND_MAX;
+        tensor_hidden[i] = val;
+    }
+
 }
 
 void run() {
     for(int i=0; i<NUM_ITERATIONS; i++) {
         start_time = clock();
-        run_inference(tensor_input, tensor_output);
+        run_inference(tensor_input, tensor_hidden, tensor_output);
         end_time = clock();
         cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
         exp_collector[i] = cpu_time_used;
@@ -56,7 +63,6 @@ void postprocessing() {
     double sum = 0.0;
     double max = 0.0;
     for(int i=0; i<NUM_ITERATIONS; i++) {
-        //printf("%.20f, ", exp_collector[i]);
         sum += exp_collector[i];
         if(exp_collector[i] > max)
             max = exp_collector[i];
