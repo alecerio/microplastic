@@ -1,7 +1,9 @@
 ```markdown
 # Neural Architecture Search and Model Training
 
-This repository contains all the necessary Python code for performing Neural Architecture Search (NAS), training Multilayer Perceptron (MLP) and Gated Recurrent Unit (GRU) models, and quantizing these models to INT8 using ONNX. Below, you'll find a detailed explanation of each component and instructions on how to use the scripts provided.
+This repository contains all the necessary Python code for performing Neural Architecture Search (NAS), training Multilayer Perceptron (MLP)
+and Gated Recurrent Unit (GRU) models, and quantizing these models to INT8 using ONNX. Below, you'll find a detailed explanation of each
+component and instructions on how to use the scripts provided.
 
 ## Repository Structure
 
