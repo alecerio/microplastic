@@ -1,5 +1,3 @@
-Certo, ecco il contenuto completo del file README in formato markdown, pronto per essere utilizzato su GitHub:
-
 ```markdown
 # Neural Architecture Search and Model Training
 
