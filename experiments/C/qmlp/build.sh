@@ -1,0 +1,1 @@
+gcc -o run_exp_qmlp framework.c qmlp.c -O3
