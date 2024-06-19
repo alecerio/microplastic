@@ -1,1 +1,0 @@
-gcc -o mlp mlp.c main.c -I include -lm -fopenmp
