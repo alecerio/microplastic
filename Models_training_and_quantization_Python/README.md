@@ -1,4 +1,3 @@
-```markdown
 # Neural Architecture Search and Model Training
 
 This repository contains all the necessary Python code for performing Neural Architecture Search (NAS), training Multilayer Perceptron (MLP)
