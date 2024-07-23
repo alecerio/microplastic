@@ -2,31 +2,23 @@
 
 This repository contains all the necessary Python code for performing Neural Architecture Search (NAS), training Multilayer Perceptron (MLP)
 and Gated Recurrent Unit (GRU) models, and quantizing these models to INT8 using ONNX. Below, you'll find a detailed explanation of each
-component and instructions on how to use the scripts provided.
+all the components and instructions on how to use the scripts provided.
+
 
 ## Repository Structure
 
-- `nas/`: Contains scripts and modules necessary for performing Neural Architecture Search.
-- `training/`: Includes Python scripts for training MLP and GRU models.
-- `quantization/`: Scripts for quantizing trained models to the INT8 format using ONNX.
+ `MLP/`: Contains scripts for training MLP models and performing ONNX operations.
+  - `MLP_main.py`: Main script for training MLP models, converting to ONNX, and quantizing.
+  - `MLP_model.py`: Defines the MLP model architecture and training functions.
+  - `MLP_onnx_operations.py`: Contains functions for converting PyTorch models to ONNX format and quantizing the ONNX models.
+  - `MLP_utils.py`: Utility functions for creating datasets and calculating parameters.
 
-## Neural Architecture Search (NAS)
+- `GRU/`: Contains scripts for training GRU models and performing ONNX operations.
+  - `GRU_main.py`: Main script for training GRU models, converting to ONNX, and quantizing.
+  - `GRU_model.py`: Defines the GRU model architecture and training functions.
+  - `GRU_onnx_operations.py`: Contains functions for converting PyTorch models to ONNX format and quantizing the ONNX models.
+  - `GRU_utils.py`: Utility functions for creating datasets and calculating parameters.
 
-Neural Architecture Search (NAS) is a process by which we automate the design of artificial neural networks. It is particularly useful for optimizing model architectures in a more efficient way than manual design.
-
-### Usage
-
-Navigate to the `nas/` directory:
-
-```bash
-cd nas
-```
-
-Run the main script to start the architecture search:
-
-```bash
-python nas_main.py
-```
 
 ## Training Models
 
@@ -34,37 +26,22 @@ This section includes scripts for training two types of neural networks: Multila
 
 ### MLP Training
 
-To train an MLP model, use the following command:
+To train, quantize, and test an MLP model, navigate to the `MLP` directory and use the following command:
 
 ```bash
-python train_mlp.py
+cd MLP
+python MLP_main.py
 ```
 
 ### GRU Training
 
-For training a GRU model, execute:
+To train, quantize, and test an MLP model, navigate to the `GRU` directory and use the following command:
 
 ```bash
-python train_gru.py
+cd GRU
+python GRU_main.py
 ```
 
-## Model Quantization
-
-Quantization is the process of reducing the precision of the numbers used to represent a model's parameters, which typically leads to reductions in model size and increases in inferencing speed, with a minimal decrease in accuracy.
-
-### Quantizing to INT8
-
-Navigate to the `quantization/` directory:
-
-```bash
-cd quantization
-```
-
-Run the quantization script to convert models to INT8 format using ONNX:
-
-```bash
-python quantize_to_int8.py
-```
 
 ## Requirements
 
@@ -72,10 +49,12 @@ This project requires Python 3.8 or higher, along with the following libraries:
 - PyTorch
 - ONNX
 - ONNXRuntime
+- NumPy
+- SciPy
+- scikit-learn
 
 You can install the necessary dependencies via pip:
 
 ```bash
 pip install -r requirements.txt
 ```
-
