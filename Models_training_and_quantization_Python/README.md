@@ -13,7 +13,7 @@ all the components and instructions on how to use the scripts provided.
   - `MLP_onnx_operations.py`: Contains functions for converting PyTorch models to ONNX format and quantizing the ONNX models.
   - `MLP_utils.py`: Utility functions for creating datasets and calculating parameters.
 
-- `GRU/`: Contains scripts for training GRU models and performing ONNX operations.
+ `GRU/`: Contains scripts for training GRU models and performing ONNX operations.
   - `GRU_main.py`: Main script for training GRU models, converting to ONNX, and quantizing.
   - `GRU_model.py`: Defines the GRU model architecture and training functions.
   - `GRU_onnx_operations.py`: Contains functions for converting PyTorch models to ONNX format and quantizing the ONNX models.
